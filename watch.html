@@ -160,6 +160,12 @@
                 const url = videoLinks[selectedMovie];
                 if (url) {
                     const win = window.open('about:blank', '_blank');
+                    win.document.title = "Google Drive";
+                    const link = win.document.createElement('link');
+                    link.rel = 'icon';
+                    link.href = 'icons/googledrive.png'; // or 'icons/googledrive.ico'
+                    win.document.head.appendChild(link);
+
                     win.document.body.style.margin = '0';
                     win.document.body.style.height = '100vh';
                     const iframe = win.document.createElement('iframe');
