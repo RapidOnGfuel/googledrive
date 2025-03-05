@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .navbar {
+            background-color: #1e1e1e;
+            padding: 10px;
+            display: flex;
+            justify-content: space-evenly;
+            width: 80%;
+            margin: 20px auto;
+            border-radius: 10px;
+        }
+        .navbar a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .navbar a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        .content {
+            margin: 20px;
+            text-align: center;
+        }
+        .video-container {
+            width: 100%;
+            max-width: 640px;
+            margin: 20px auto;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+        .video-container iframe {
+            width: 100%;
+            height: 420px; /* Aspect ratio 16:9 */
+            border-radius: 10px;
+        }
+        .filter-wrapper {
+            margin: 20px;
+            position: relative;
+        }
+        .filter-button {
+            background-color: #4da6ff;
+            color: #121212;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .filter-dropdown {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            background-color: #1e1e1e;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 10px;
+            width: 220px; /* Increased width */
+            text-align: left;
+            z-index: 10;
+        }
+        .filter-dropdown input {
+            width: 100%;
+            padding: 0px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+            background-color: #333;
+            color: #e0e0e0;
+        }
+        .filter-dropdown label {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+            cursor: pointer;
+            align-items: center;
+        }
+        .filter-dropdown label:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">Main</a>
+        <a href="movies.html">Movies</a>
+    </div>
+
+    <div class="content">
+        <h1>Watch Movie</h1>
+        <h5>For best user experience, please fullscreen the video, as the display does not automatically detect the size of the video, and also it is best played in full screen.
+        <br> There are <u><b>NO SUBTITLES OR MEDIA RESOLUTION CHANGER</b></u>, and I do not plan on adding them any time soon, as this is a W.I.P (work in progress) <br>and I have to balance school, this, and all the other projects that I currently take part in at this moment.
+        </h5>
+        <div class="filter-wrapper">
+            <button class="filter-button" onclick="toggleFilter()">Select Movie (show/hide)</button>
+            <div class="filter-dropdown" id="filter-dropdown">
+                <input type="text" id="search-bar" placeholder="Search for a movie...">
+                <label>
+                    Pirates of the Caribbean: Dead Mans Chest
+                    <input type="radio" name="movie" value="movie1">
+                </label>
+                <label>
+                    Pirates of the Caribbean: On Stranger Tides
+                    <input type="radio" name="movie" value="movie2">
+                </label>
+                <label>
+                    Pirates of the Caribbean: Dead Men Tell No Tales
+                    <input type="radio" name="movie" value="movie3">
+                </label>
+                <label>
+                    Pirates of the Caribbean: The Curse of the Black Pearl
+                    <input type="radio" name="movie" value="movie4">
+                </label>
+                <label>
+                    Pirates of the Caribbean: At Worlds End
+                    <input type="radio" name="movie" value="movie5">
+                </label>
+            </div>
+        </div>
+
+        <div class="video-container" id="movie1">
+            <iframe src="https://drive.google.com/file/d/1wOHBO25HAx0ivIFwQWTRpvxsRPD3ZFtS/preview" width="100%" height="562" allow="autoplay" allowfullscreen></iframe>
+        </div>
+        <div class="video-container" id="movie2">
+            <iframe src="https://drive.google.com/file/d/1HnK464Wo2p4015nDBZczrvK8DiukX1rI/preview" width="100%" height="562" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-container" id="movie3">
+            <iframe src="https://drive.google.com/file/d/1uqLSvpKa8CDMsnYOxVLwz-nk6KYS_aDK/preview" width="100%" height="562" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-container" id="movie4">
+            <iframe src="https://drive.google.com/file/d/1KNt6L8v8SY1F7tW5LNDAUxEYap8glI42/preview" width="100%" height="562" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-container" id="movie5">
+            <iframe src="https://drive.google.com/file/d/1AWnzLF_LP-oNhuDTHiwzLKeNBNadpJ4u/preview" width="100%" height="562" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        function toggleFilter() {
+            const filterDropdown = document.getElementById('filter-dropdown');
+            filterDropdown.style.display = (filterDropdown.style.display === 'block') ? 'none' : 'block';
+        }
+
+        const searchBar = document.getElementById('search-bar');
+        const filterOptions = document.querySelectorAll('input[name="movie"]');
+        const videoContainers = document.querySelectorAll('.video-container');
+
+        searchBar.addEventListener('input', function() {
+            const searchTerm = searchBar.value.toLowerCase();
+            filterOptions.forEach(option => {
+                const label = option.parentElement;
+                if (label.textContent.toLowerCase().includes(searchTerm)) {
+                    label.style.display = 'flex';
+                } else {
+                    label.style.display = 'none';
+                }
+            });
+        });
+
+        filterOptions.forEach(option => {
+            option.addEventListener('change', function() {
+                videoContainers.forEach(container => {
+                    container.style.display = 'none';
+                });
+                const selectedMovie = document.querySelector(`.video-container#${this.value}`);
+                if (selectedMovie) {
+                    selectedMovie.style.display = 'block';
+                }
+            });
+        });
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.filter-button') && !event.target.closest('.filter-dropdown')) {
+                document.getElementById('filter-dropdown').style.display = "none";
+            }
+        };
+    </script>
+</body>
+</html>
