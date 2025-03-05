@@ -41,21 +41,6 @@
             margin: 20px;
             text-align: center;
         }
-        .video-container {
-            width: 100%;
-            max-width: 640px;
-            margin: 20px auto;
-            background-color: #1e1e1e;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            display: none;
-        }
-        .video-container iframe {
-            width: 100%;
-            height: 420px; /* Aspect ratio 16:9 */
-            border-radius: 10px;
-        }
         .filter-wrapper {
             margin: 20px;
             position: relative;
@@ -78,7 +63,7 @@
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             padding: 10px;
-            width: 220px; /* Increased width */
+            width: 220px;
             text-align: left;
             z-index: 10;
         }
@@ -182,8 +167,22 @@
                     iframe.style.border = 'none';
                     iframe.style.width = '100%';
                     iframe.style.height = '100%';
+                    iframe.allow = 'autoplay; fullscreen';
                     iframe.src = url;
                     win.document.body.appendChild(iframe);
+
+                    // Request fullscreen
+                    iframe.addEventListener('load', () => {
+                        if (iframe.requestFullscreen) {
+                            iframe.requestFullscreen();
+                        } else if (iframe.mozRequestFullScreen) { /* Firefox */
+                            iframe.mozRequestFullScreen();
+                        } else if (iframe.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                            iframe.webkitRequestFullscreen();
+                        } else if (iframe.msRequestFullscreen) { /* IE/Edge */
+                            iframe.msRequestFullscreen();
+                        }
+                    });
                 }
             });
         });
