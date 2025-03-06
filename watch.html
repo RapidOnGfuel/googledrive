@@ -14,17 +14,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-
-
-
-
-
-
-
-
-
-
-
         }
         .navbar {
             background-color: #1e1e1e;
@@ -34,7 +23,6 @@
             width: 80%;
             margin: 20px auto;
             border-radius: 10px;
-
         }
         .navbar a {
             color: #e0e0e0;
@@ -66,7 +54,6 @@
             border-radius: 10px;
             cursor: pointer;
         }
-
         .filter-dropdown {
             display: none;
             position: absolute;
@@ -79,6 +66,8 @@
             width: 220px;
             text-align: left;
             z-index: 10;
+            max-height: 300px; /* Set a fixed height */
+            overflow-y: auto; /* Enable vertical scrolling */
         }
         .filter-dropdown input {
             width: 100%;
@@ -99,11 +88,9 @@
         .filter-dropdown label:hover {
             background-color: #333;
         }
-
     </style>
 </head>
 <body>
-
     <div class="navbar">
         <a href="index.html">Main</a>
         <a href="movies.html">Movies</a>
@@ -128,7 +115,6 @@
         </div>
     </div>
     <script>
-
         function toggleFilter() {
             const filterDropdown = document.getElementById('filter-dropdown');
             filterDropdown.style.display = (filterDropdown.style.display === 'block') ? 'none' : 'block';
@@ -194,9 +180,6 @@
                 }
             });
         });
-
-
-
 
         window.onclick = function(event) {
             if (!event.target.matches('.filter-button') && !event.target.closest('.filter-dropdown')) {
