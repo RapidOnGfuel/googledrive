@@ -55,7 +55,7 @@
             gap: 10px;
             margin: 20px;
             position: relative;
-            z-index: 1;
+            z-index: 2; /* Ensure search container is above other elements */
         }
         .search-bar {
             width: 250px;
@@ -89,7 +89,7 @@
             padding: 10px;
             width: 120px;
             text-align: left;
-            z-index: 10;
+            z-index: 3; /* Ensure dropdown is on top of all other elements */
         }
         .filter-dropdown label {
             display: block;
@@ -283,8 +283,7 @@
         const filterOptions = document.querySelectorAll('input[name="filter"]');
         const scriptContainer = document.getElementById('script-container');
 
-        // Movie data embedded directly in the script 
-        // instead of in movies.json cuz for some reason it wasnt working
+        // Movie data embedded directly in the script
         const movies = [
             {
                 name: "Pirates of the Caribbean: Dead Man's Chest",
