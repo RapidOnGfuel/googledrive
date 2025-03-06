@@ -43,5 +43,10 @@
             "name": "TV Show 2",
             "type": "tvshows",
             "link": "watch.html"
+        },
+        {
+            "name": "Test show addition",
+            "type": "movies",
+            "link": "watch.html"
         }
     ]
