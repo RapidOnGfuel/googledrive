@@ -49,6 +49,38 @@
             transform: translateY(-3px);
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
+                .links {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            width: 60%;
+        }
+        .links a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #e0e0e0;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background-color: #1e1e1e;
+            transition: transform 0.2s ease-in-out;
+        }
+        .links a:hover {
+            transform: translateY(-3px);
+        }
+        .links a:first-child {
+            justify-content: flex-end;
+        }
+        .links a:last-child {
+            justify-content: flex-start;
+        }
+        .links img {
+            width: 40px;
+            height: 24px;
+            margin: 0 5px;
+        }
     </style>
 </head>
 <body>
@@ -59,6 +91,14 @@
     </div>
     <h1>There's not much to see here right now. Go to a different page.</h1>
     <h3>For Movie Requests, Please visit the link below and fill out the google form!</h3>
+    <div class="links">
+            <a href="#" target="_blank">
+                <img src="icons/googleformlogo.png" alt="Google Form">Movie Request
+            </a>
+            <a href="#" target="_blank">
+                <img src="icons/discordlogo.png" alt="Contact Me">Contact Me 
+            </a>
+        </div>
 
     <script src="particles.min.js"></script>
     <script>
