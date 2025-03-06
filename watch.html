@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watch</title>
+    <title>Google Drive</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,6 +14,17 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
+            min-height: 100vh;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
         }
         .navbar {
             background-color: #1e1e1e;
@@ -23,6 +34,7 @@
             width: 80%;
             margin: 20px auto;
             border-radius: 10px;
+            z-index: 1;
         }
         .navbar a {
             color: #e0e0e0;
@@ -37,13 +49,22 @@
             transform: translateY(-3px);
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
-        .content {
-            margin: 20px;
-            text-align: center;
-        }
-        .filter-wrapper {
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             margin: 20px;
             position: relative;
+            z-index: 1;
+        }
+        .search-bar {
+            width: 250px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            background-color: #1e1e1e;
+            color: #e0e0e0;
         }
         .filter-button {
             background-color: #4da6ff;
@@ -54,133 +75,286 @@
             border-radius: 10px;
             cursor: pointer;
         }
+        .filter-wrapper {
+            position: relative;
+        }
         .filter-dropdown {
             display: none;
             position: absolute;
             top: 40px;
-            left: 0;
+            right: 0;
             background-color: #1e1e1e;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             padding: 10px;
-            width: 220px;
+            width: 120px;
             text-align: left;
             z-index: 10;
         }
-        .filter-dropdown input {
-            width: 100%;
-            padding: 0px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #e0e0e0;
-            background-color: #333;
-            color: #e0e0e0;
-        }
         .filter-dropdown label {
-            display: flex;
-            justify-content: space-between;
+            display: block;
             padding: 5px;
             cursor: pointer;
-            align-items: center;
         }
         .filter-dropdown label:hover {
             background-color: #333;
         }
+        .script-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 80%;
+            gap: 20px;
+            z-index: 1;
+            margin-bottom: 40px;
+        }
+        .script-box {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .script-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(1, 58, 246, 0.528);
+        }
+        .script-box a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4da6ff;
+            color: #121212;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .script-box a:hover {
+            transform: translateY(-3px);
+        }
+        .announcement {
+            align-items: center;
+            text-align: center;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
+    <div id="particles-js"></div>
     <div class="navbar">
         <a href="index.html">Main</a>
         <a href="movies.html">Movies</a>
     </div>
-
-    <div class="content">
-        <h1>Watch Movie</h1>
-        <h5> There are <u><b>NO SUBTITLES OR MEDIA RESOLUTION CHANGER</b></u>, and I do not plan on adding them any time soon, as this is a W.I.P (work in progress) <br>and I have to balance school, this, and all the other projects that I currently take part in at this moment. </h5>
-        <h5>When you select a movie it opens in an about:blank tab which is invisible to goguardian and other school spyware of the sorts.</h5>
+    <h5 class="announcement"> 
+        Unfortunately only movies are supported at the moment, <br>TV shows take up too much data and it is hard to correctly load every episode in a season automatically.
+        <br>For now, watch a movie!
+    </h5>
+    <div class="search-container">
+        <input type="text" class="search-bar" placeholder="Search for scripts..." id="search-bar">
         <div class="filter-wrapper">
-            <button class="filter-button" onclick="toggleFilter()">Select Movie (show/hide)</button>
+            <button class="filter-button" onclick="toggleFilter()">Filter</button>
             <div class="filter-dropdown" id="filter-dropdown">
-                <input type="text" id="search-bar" placeholder="Search for a movie...">
-                <label>Pirates of the Caribbean: Dead Mans Chest<input type="radio" name="movie" value="movie1"></label>
-                <label>Pirates of the Caribbean: On Stranger Tides <input type="radio" name="movie" value="movie2"> </label>
-                <label>Pirates of the Caribbean: Dead Men Tell No Tales<input type="radio" name="movie" value="movie3"></label>
-                <label>Pirates of the Caribbean: The Curse of the Black Pearl<input type="radio" name="movie" value="movie4"></label>
-                <label>Pirates of the Caribbean: At World's End<input type="radio" name="movie" value="movie5"></label>
-                <label>Toy Story 1<input type="radio" name="movie" value="movie6"></label>
+                <label><input type="radio" name="filter" value="all" checked> All</label>
+                <label><input type="radio" name="filter" value="movies"> Movies</label>
+                <label><input type="radio" name="filter" value="tvshows"> TV Shows</label>
             </div>
         </div>
     </div>
 
+    <div class="script-container" id="script-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 400,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#fff"
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    },
+                    polygon: {
+                        nb_sides: 5
+                    },
+                    image: {
+                        src: "img/github.svg",
+                        width: 100,
+                        height: 100
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: false,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 10,
+                    random: true,
+                    anim: {
+                        enable: false,
+                        speed: 40,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: false,
+                    distance: 500,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 2
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "bottom",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "bubble"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "repulse"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 400,
+                        line_linked: {
+                            opacity: 0.5
+                        }
+                    },
+                    bubble: {
+                        distance: 400,
+                        size: 4,
+                        duration: 0.3,
+                        opacity: 1,
+                        speed: 3
+                    },
+                    repulse: {
+                        distance: 200,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    },
+                    remove: {
+                        particles_nb: 2
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
         function toggleFilter() {
             const filterDropdown = document.getElementById('filter-dropdown');
             filterDropdown.style.display = (filterDropdown.style.display === 'block') ? 'none' : 'block';
         }
 
         const searchBar = document.getElementById('search-bar');
-        const filterOptions = document.querySelectorAll('input[name="movie"]');
-        const videoLinks = {
-            movie1: "https://drive.google.com/file/d/1wOHBO25HAx0ivIFwQWTRpvxsRPD3ZFtS/preview",
-            movie2: "https://drive.google.com/file/d/1HnK464Wo2p4015nDBZczrvK8DiukX1rI/preview",
-            movie3: "https://drive.google.com/file/d/1uqLSvpKa8CDMsnYOxVLwz-nk6KYS_aDK/preview",
-            movie4: "https://drive.google.com/file/d/1KNt6L8v8SY1F7tW5LNDAUxEYap8glI42/preview",
-            movie5: "https://drive.google.com/file/d/1AWnzLF_LP-oNhuDTHiwzLKeNBNadpJ4u/preview",
-            movie6: "https://drive.google.com/file/d/11CXfR3nzIghNGQjiojwvXE-9xyDLPUiE/preview"
-        };
+        const filterOptions = document.querySelectorAll('input[name="filter"]');
+        const scriptContainer = document.getElementById('script-container');
 
-        searchBar.addEventListener('input', function() {
-            const searchTerm = searchBar.value.toLowerCase();
-            filterOptions.forEach(option => {
-                const label = option.parentElement;
-                if (label.textContent.toLowerCase().includes(searchTerm)) {
-                    label.style.display = 'flex';
+        // Load movies from JSON
+        fetch('movies.json')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(movie => {
+                    const scriptBox = document.createElement('div');
+                    scriptBox.className = 'script-box';
+                    scriptBox.setAttribute('data-script', movie.name);
+                    scriptBox.setAttribute('data-type', movie.type);
+
+                    const title = document.createElement('h2');
+                    title.textContent = movie.name;
+                    scriptBox.appendChild(title);
+
+                    const type = document.createElement('p');
+                    type.textContent = movie.type.charAt(0).toUpperCase() + movie.type.slice(1);
+                    scriptBox.appendChild(type);
+
+                    const link = document.createElement('a');
+                    link.href = movie.link;
+                    link.target = '_blank';
+                    link.textContent = 'Watch';
+                    scriptBox.appendChild(link);
+
+                    scriptContainer.appendChild(scriptBox);
+                });
+                filterScripts();
+            });
+
+        function filterScripts() {
+            const searchTerm = searchBar.value.toLowerCase().trim();
+            const selectedFilter = document.querySelector('input[name="filter"]:checked').value;
+            const scriptBoxes = document.querySelectorAll('.script-box');
+            let found = false;
+
+            scriptBoxes.forEach(scriptBox => {
+                const scriptName = scriptBox.getAttribute('data-script').toLowerCase();
+                const scriptType = scriptBox.getAttribute('data-type');
+
+                const matchesSearch = scriptName.includes(searchTerm);
+                const matchesFilter = selectedFilter === "all" || scriptType === selectedFilter;
+
+                if (matchesSearch && matchesFilter) {
+                    scriptBox.style.display = 'block';
+                    found = true;
                 } else {
-                    label.style.display = 'none';
+                    scriptBox.style.display = 'none';
                 }
             });
-        });
 
-        filterOptions.forEach(option => {
-            option.addEventListener('change', function() {
-                const selectedMovie = this.value;
-                const url = videoLinks[selectedMovie];
-                if (url) {
-                    const win = window.open('about:blank', '_blank');
-                    win.document.title = "Google Drive";
-                    const link = win.document.createElement('link');
-                    link.rel = 'icon';
-                    link.href = 'icons/Google_Drive_icon-icons.com_75713.ico'; // or 'icons/googledrive.png'
-                    win.document.head.appendChild(link);
+            if (!found && searchTerm !== "") {
+                scriptBoxes.forEach(scriptBox => scriptBox.style.display = 'none');
+            }
 
-                    win.document.body.style.margin = '0';
-                    win.document.body.style.height = '100vh';
-                    const iframe = win.document.createElement('iframe');
-                    iframe.style.border = 'none';
-                    iframe.style.width = '100%';
-                    iframe.style.height = '100%';
-                    iframe.allow = 'autoplay; fullscreen';
-                    iframe.src = url;
-                    win.document.body.appendChild(iframe);
-
-                    // Request fullscreen
-                    iframe.addEventListener('load', () => {
-                        if (iframe.requestFullscreen) {
-                            iframe.requestFullscreen();
-                        } else if (iframe.mozRequestFullScreen) { /* Firefox */
-                            iframe.mozRequestFullScreen();
-                        } else if (iframe.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-                            iframe.webkitRequestFullscreen();
-                        } else if (iframe.msRequestFullscreen) { /* IE/Edge */
-                            iframe.msRequestFullscreen();
-                        }
-                    });
-                }
+            const matchingScripts = Array.from(scriptBoxes).filter(scriptBox =>
+                scriptBox.style.display === 'block'
+            );
+            matchingScripts.forEach(scriptBox => {
+                scriptContainer.prepend(scriptBox);
             });
-        });
+        }
+
+        searchBar.addEventListener('input', filterScripts);
+        filterOptions.forEach(option => option.addEventListener('change', filterScripts));
 
         window.onclick = function(event) {
-            if (!event.target.matches('.filter-button') && !event.target.closest('.filter-dropdown')) {
+            if (!event.target.matches('.filter-button')) {
                 document.getElementById('filter-dropdown').style.display = "none";
             }
         };
