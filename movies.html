@@ -24,7 +24,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            pointer-events: none; /* Ensure particles do not interfere with scrolling */
+            pointer-events: none;
         }
         .navbar {
             background-color: #1e1e1e;
@@ -106,7 +106,7 @@
             width: 80%;
             gap: 20px;
             z-index: 1;
-            margin-bottom: 40px; /* Added margin for spacing */
+            margin-bottom: 40px;
         }
         .script-box {
             background-color: #1e1e1e;
@@ -152,7 +152,6 @@
         Unfortunately only movies are supported at the moment, <br>TV shows take up too much data and it is hard to correctly load every episode in a season automatically.
         <br>For now, watch a movie!
     </h5>
-    <!-- Search Bar & Filter -->
     <div class="search-container">
         <input type="text" class="search-bar" placeholder="Search for scripts..." id="search-bar">
         <div class="filter-wrapper">
@@ -165,53 +164,7 @@
         </div>
     </div>
 
-    <div class="script-container" id="script-container">
-        <div class="script-box" data-script="Pirates of the Caribbean: Dead Man's Chest" data-type="movies">
-            <h2>Pirates of the Caribbean: Dead Man's Chest</h2>
-            <p>Movies</p>
-            <a href="watch.html" target="_blank">Watch</a>
-        </div>
-        <div class="script-box" data-script="Pirates of the Caribbean: On Stranger Tides" data-type="movies">
-            <h2>Pirates of the Caribbean: On Stranger Tides</h2>
-            <p>Movies</p>
-            <a href="watch.html" target="_blank">Watch</a>
-        </div>
-        <div class="script-box" data-script="Pirates of the Caribbean: Dead Men Tell No Tales" data-type="movies">
-            <h2>Pirates of the Caribbean: Dead Men Tell No Tales</h2>
-            <p>Movies</p>
-            <a href="watch.html" target="_blank">Watch</a>
-        </div>
-        <div class="script-box" data-script="Pirates of the Caribbean: The Curse of the Black Pearl" data-type="movies">
-            <h2>Pirates of the Caribbean: The Curse of the Black Pearl</h2>
-            <p>Movies</p>
-            <a href="watch.html" target="_blank">Watch</a>
-        </div>
-        <div class="script-box" data-script="Pirates of the Caribbean: At Worlds End" data-type="movies">
-            <h2>Pirates of the Caribbean: At Worlds End</h2>
-            <p>Movies</p>
-            <a href="watch.html" target="_blank">Watch</a>
-        </div>
-        <div class="script-box" data-script="Toy Story 1" data-type="movies">
-            <h2>Toy Story 1</h2>
-            <p>Movies</p>
-            <a href="watch.html" target="_blank">Watch</a>
-        </div>
-        <div class="script-box" data-script="TV Show 1" data-type="tvshows">
-            <h2>TV Show 1</h2>
-            <p>TV Shows</p>
-            <a href="watch.html" target="_blank">Watch</a>
-        </div>
-        <div class="script-box" data-script="Movie 2" data-type="movies">
-            <h2>Movie 2</h2>
-            <p>Movies</p>
-            <a href="watch.html" target="_blank">Watch</a>
-        </div>
-        <div class="script-box" data-script="TV Show 2" data-type="tvshows">
-            <h2>TV Show 2</h2>
-            <p>TV Shows</p>
-            <a href="watch.html" target="_blank">Watch</a>
-        </div>
-    </div>
+    <div class="script-container" id="script-container"></div>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
@@ -235,11 +188,6 @@
                     },
                     polygon: {
                         nb_sides: 5
-                    },
-                    image: {
-                        src: "img/github.svg",
-                        width: 100,
-                        height: 100
                     }
                 },
                 opacity: {
@@ -333,12 +281,86 @@
 
         const searchBar = document.getElementById('search-bar');
         const filterOptions = document.querySelectorAll('input[name="filter"]');
-        const scriptBoxes = document.querySelectorAll('.script-box');
         const scriptContainer = document.getElementById('script-container');
+
+        // Movie data embedded directly in the script 
+        // instead of in movies.json cuz for some reason it wasnt working
+        const movies = [
+            {
+                name: "Pirates of the Caribbean: Dead Man's Chest",
+                type: "movies",
+                link: "watch.html"
+            },
+            {
+                name: "Pirates of the Caribbean: On Stranger Tides",
+                type: "movies",
+                link: "watch.html"
+            },
+            {
+                name: "Pirates of the Caribbean: Dead Men Tell No Tales",
+                type: "movies",
+                link: "watch.html"
+            },
+            {
+                name: "Pirates of the Caribbean: The Curse of the Black Pearl",
+                type: "movies",
+                link: "watch.html"
+            },
+            {
+                name: "Pirates of the Caribbean: At Worlds End",
+                type: "movies",
+                link: "watch.html"
+            },
+            {
+                name: "Toy Story 1",
+                type: "movies",
+                link: "watch.html"
+            },
+            {
+                name: "TV Show 1",
+                type: "tvshows",
+                link: "watch.html"
+            },
+            {
+                name: "Movie 2",
+                type: "movies",
+                link: "watch.html"
+            },
+            {
+                name: "TV Show 2",
+                type: "tvshows",
+                link: "watch.html"
+            }
+        ];
+
+        // Dynamically create movie entries
+        movies.forEach(movie => {
+            const scriptBox = document.createElement('div');
+            scriptBox.className = 'script-box';
+            scriptBox.setAttribute('data-script', movie.name);
+            scriptBox.setAttribute('data-type', movie.type);
+
+            const title = document.createElement('h2');
+            title.textContent = movie.name;
+            scriptBox.appendChild(title);
+
+            const type = document.createElement('p');
+            type.textContent = movie.type.charAt(0).toUpperCase() + movie.type.slice(1);
+            scriptBox.appendChild(type);
+
+            const link = document.createElement('a');
+            link.href = movie.link;
+            link.target = '_blank';
+            link.textContent = 'Watch';
+            scriptBox.appendChild(link);
+
+            scriptContainer.appendChild(scriptBox);
+        });
 
         function filterScripts() {
             const searchTerm = searchBar.value.toLowerCase().trim();
             const selectedFilter = document.querySelector('input[name="filter"]:checked').value;
+            const scriptBoxes = document.querySelectorAll('.script-box');
             let found = false;
 
             scriptBoxes.forEach(scriptBox => {
