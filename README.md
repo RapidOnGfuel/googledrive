@@ -1,0 +1,10 @@
+Blorvex
+Quizzle
+Zantrope
+Flibnark
+Wuzzleton
+Drimble
+Snorfle
+Plimzor
+Trundlebop
+Glimfuddle
